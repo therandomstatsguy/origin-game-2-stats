@@ -1185,8 +1185,9 @@ function MarketsGraph({sample,scope,onSliderState}){
      }},
     {pc:1,slider:'qldPts',sliderKey:'qldPts',
      computeRow:(ln)=>{
-       let nOver=0,qOver=0; sample.forEach(r=>{const tp=teamPtsScope(r); if(tp.NSW>ln)nOver++; if(tp.QLD>ln)qOver++;});
-       return {l:'QLD '+(halfLbl?halfLbl:'')+'Pts Over '+ln, a:P(nOver,m.n), b:P(qOver,m.n)};
+       let qOver=0; sample.forEach(r=>{const tp=teamPtsScope(r); if(tp.QLD>ln)qOver++;});
+       const p=P(qOver,m.n);
+       return {l:'QLD '+(halfLbl?halfLbl:'')+'Pts Over '+ln, a:Math.max(0,100-p), b:p};
      }}
   );
   /* Tries rows + Lead After — dynamic */
@@ -1205,8 +1206,9 @@ function MarketsGraph({sample,scope,onSliderState}){
      }},
     {pc:1,slider:'qldTries',sliderKey:'qldTries',
      computeRow:(ln)=>{
-       let nOver=0,qOver=0; sample.forEach(r=>{const t=tryCntScope(r.code); if((t.NSW||0)>ln)nOver++; if((t.QLD||0)>ln)qOver++;});
-       return {l:'QLD '+(halfLbl?halfLbl:'')+'Tries Over '+ln, a:P(nOver,m.n), b:P(qOver,m.n)};
+       let qOver=0; sample.forEach(r=>{const t=tryCntScope(r.code); if((t.QLD||0)>ln)qOver++;});
+       const p=P(qOver,m.n);
+       return {l:'QLD '+(halfLbl?halfLbl:'')+'Tries Over '+ln, a:Math.max(0,100-p), b:p};
      }}
   );
   if(scope==='full') ROWS.push(
